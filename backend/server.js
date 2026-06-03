@@ -13,7 +13,7 @@ const server = http.createServer(app);
 // CORS – allow the deployed frontend (and localhost during dev)
 // ------------------------------------------------------------------
 const allowedOrigins = [
-  process.env.FRONTEND_URL,          // e.g. https://studybudy.vercel.app
+  process.env.FRONTEND_URL ? process.env.FRONTEND_URL.trim() : null,
   "http://localhost:5173",
   "http://localhost:3000",
 ].filter(Boolean);
@@ -24,6 +24,7 @@ app.use(
       // Allow requests with no origin (e.g. curl, Postman, mobile apps)
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) return callback(null, true);
+      console.warn(`⚠️ [CORS Blocked] Incoming Origin: "${origin}" | Allowed Origins:`, allowedOrigins);
       return callback(new Error(`CORS: ${origin} not allowed`));
     },
     credentials: true,
