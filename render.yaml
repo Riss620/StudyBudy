@@ -6,7 +6,7 @@ services:
     region: oregon
     plan: free
     rootDir: backend
-    buildCommand: npm install
+    buildCommand: npm install --legacy-peer-deps
     startCommand: npm start
     healthCheckPath: /
     envVars:
